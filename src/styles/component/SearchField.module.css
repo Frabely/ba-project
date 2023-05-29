@@ -13,3 +13,19 @@
 .input::selection {
     background: rgba(166, 166, 166, 0.3);
 }
+
+.tooltip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 11%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    padding: 2%;
+}
+
+.text {
+    color: white;
+    font-size: 10px;
+}
