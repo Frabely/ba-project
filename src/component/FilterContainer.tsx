@@ -193,6 +193,11 @@ function FilterContainer({
         setEndDate(getToday())
     }
 
+    const filterButtonClickHandler = () => {
+        setLayers([...layers, geoLayer])
+        onViewStateChange(CHEMNITZ_VIEW_STATE)
+    }
+
     const test = open ? {
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
@@ -328,9 +333,7 @@ function FilterContainer({
                 <div style={{width: '100%', display: "flex", justifyContent: "space-around"}}>
                     <div className={classes.rowDisplayApplyFilters}>
                         <div className={`${classes.containerApplyFilters}`}>
-                            <button className={classes.button} onClick={() => {
-                                setLayers([...layers, geoLayer])
-                            }}>
+                            <button className={classes.button} onClick={filterButtonClickHandler}>
                                 <FontAwesomeIcon size={'2x'} icon={faFilter}></FontAwesomeIcon>
                             </button>
                             <button className={classes.button} onClick={resetFiltersAndViewState}>
