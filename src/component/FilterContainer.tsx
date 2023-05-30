@@ -15,14 +15,11 @@ import {
     faFilter,
     faFilterCircleXmark
 } from '@fortawesome/free-solid-svg-icons'
-import {} from '@fortawesome/free-regular-svg-icons'
-import {layer} from "@fortawesome/fontawesome-svg-core";
 
 const DEFAULT_SELECT_COLOR = 'rgb(157,157,157)'
 
 
 function FilterContainer({
-                             layers,
                              setLayers,
                              onViewStateChange,
                              currentFilterSelection,
@@ -194,67 +191,87 @@ function FilterContainer({
     }
 
     const filterButtonClickHandler = () => {
-        setLayers([...layers, geoLayer])
-        onViewStateChange(CHEMNITZ_VIEW_STATE)
+        setLayers([geoLayer])
+        if (isPredefinedActive && predefinedAreaSelectValue === 'Dresden')
+            onViewStateChange(DRESDEN_VIEW_STATE)
+        else if (isPredefinedActive && predefinedAreaSelectValue === 'Leipzig')
+            onViewStateChange(LEIPZIG_VIEW_STATE)
+        else
+            onViewStateChange(CHEMNITZ_VIEW_STATE)
     }
 
-    const test = open ? {
+    const borders = open ? {
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         borderBottom: '1px solid rgba(166, 166, 166, 1)'
     } : {}
 
-    const test2 = isSearchActive ? {background: DEFAULT_SELECT_COLOR} : {}
+    const backgroundColor = isSearchActive ? {background: DEFAULT_SELECT_COLOR} : {}
 
 
     return (
         <>
             <div className={classes.container}>
                 <div className={classes.containerSearchField}
-                     style={{...test, ...test2}}
+                     style={{...borders, ...backgroundColor}}
                 >
                     <div className={classes.rowDisplay}>
-                        <button
-                            className={classes.button}
-                            style={isEnterCoordinatesActive ? {background: 'rgb(121,121,121)'} : {}}
-                            onClick={onEnterBoundingBoxCoordinatesClickHandler}
-                        >
-                            <FontAwesomeIcon icon={faArrowsToCircle}></FontAwesomeIcon>
-                        </button>
-                        <SearchField
-                            onSearchFieldClickHandler={onSearchFieldClickHandler}
-                            placeHolder={isEnterCoordinatesActive ? '{xx.xx;yy.yy},{xx.xx;yy.yy}' : 'Search location'}
-                            toolTip={
-                                'Enter location as word or coordinates! ' +
-                                'To enter coordinates activate "search coordinates" ' +
-                                'Coordinates should be the North-West and ' +
-                                'South East Points of the Bounding Box ' +
-                                'entered like "{xx.xx;yy.yy},{xx.xx;yy.yy}"'
-                            }
-                        />
-                        <button
-                            className={classes.button}
-                            onClick={() => {
-                                onViewStateChange(CHEMNITZ_VIEW_STATE)
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
-                        </button>
-                        <button
-                            className={classes.button}
-                            style={isBoundingBoxShown ? {background: 'rgb(121,121,121)'} : {}}
-                            onClick={() => {
-                                setIsBoundingBoxShown(!isBoundingBoxShown)
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faVectorSquare}></FontAwesomeIcon>
-                        </button>
-                        <button
-                            className={classes.button}
-                            onClick={onOpenClickHandler}
-                            style={open ? {background: 'rgb(121,121,121)'} : {}}>
-                            <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown}></FontAwesomeIcon>
-                        </button>
+                        <div className={classes.rowDisplay}>
+                            <button
+                                className={classes.button}
+                                onClick={onOpenClickHandler}
+                                style={open ? {background: 'rgb(121,121,121)'} : {}}>
+                                <FontAwesomeIcon icon={open ? faChevronUp : faChevronDown}></FontAwesomeIcon>
+                            </button>
+                            <button
+                                className={classes.button}
+                                style={isBoundingBoxShown ? {background: 'rgb(121,121,121)'} : {}}
+                                onClick={() => {
+                                    setIsBoundingBoxShown(!isBoundingBoxShown)
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faVectorSquare}></FontAwesomeIcon>
+                            </button>
+                        </div>
+                        <div style={{paddingLeft: '5%'}}></div>
+                        <div className={classes.rowDisplay}>
+
+                            <button
+                                className={classes.button}
+                                style={isEnterCoordinatesActive ? {background: 'rgb(121,121,121)'} : {}}
+                                onClick={onEnterBoundingBoxCoordinatesClickHandler}
+                            >
+                                <FontAwesomeIcon icon={faArrowsToCircle}></FontAwesomeIcon>
+                            </button>
+                            <SearchField
+                                onSearchFieldClickHandler={onSearchFieldClickHandler}
+                                placeHolder={isEnterCoordinatesActive ? '{xx.xx;yy.yy},{xx.xx;yy.yy}' : 'Search location'}
+                                toolTip={
+                                    'Enter location as word or coordinates! ' +
+                                    'To enter coordinates activate "search coordinates" ' +
+                                    'Coordinates should be the North-West and ' +
+                                    'South East Points of the Bounding Box ' +
+                                    'entered like "{xx.xx;yy.yy},{xx.xx;yy.yy}"'
+                                }
+                            />
+                            <button
+                                className={classes.button}
+                                onClick={() => {
+                                    onViewStateChange(CHEMNITZ_VIEW_STATE)
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faMagnifyingGlass}></FontAwesomeIcon>
+                            </button>
+                        </div>
+                        <div style={{paddingLeft: '5%'}}></div>
+                        <div className={classes.rowDisplay}>
+                            <button className={classes.button} onClick={resetFiltersAndViewState}>
+                                <FontAwesomeIcon icon={faFilterCircleXmark}></FontAwesomeIcon>
+                            </button>
+                            <button className={classes.button} style={{background: 'rgb(97,162,255)', borderColor: 'rgb(0,0,0)'}} onClick={filterButtonClickHandler}>
+                                <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {open &&
@@ -263,7 +280,7 @@ function FilterContainer({
                              style={isPredefinedActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                         >
                             <div className={classes.rowDisplay}>
-                                <text fontSize={'10px'}>Predefined Areas:</text>
+                                <label style={{fontSize: '10px'}}>Predefined Areas:</label>
                                 <select value={predefinedAreaSelectValue} onChange={onSelectLocationHandler}
                                         onClick={onPredefinedClickHandler}
                                         className={classes.select}>
@@ -277,7 +294,7 @@ function FilterContainer({
                              style={isSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                         >
                             <div className={classes.rowDisplay}>
-                                <text fontSize={'10px'}>Rectangle Selection:</text>
+                                <label style={{fontSize: '10px'}}>Rectangle Selection:</label>
                                 <button className={classes.button}
                                         style={isDrawingRectangle ? {background: 'rgb(121,121,121)'} : {}}
                                         onClick={onSelectionClickHandler}>
@@ -287,12 +304,12 @@ function FilterContainer({
                         </div>
                         <div className={classes.containerDateSelection}
                              style={isDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}>
-                            <text>Date Range:</text>
+                            <label>Date Range:</label>
                             <div className={classes.rowDisplay}
                                  style={isDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                             >
-                                <text>Start Date:</text>
-                                <input defaultValue={getYesterday()} style={{fontSize: '10px'}} type={"date"}
+                                <label>Start Date:</label>
+                                <input className={classes.dateInput} type={"date"}
                                        onClick={onDateSelectionClickHandler}
                                        onChange={(e: any) => {
                                            setStartDate(e.target.value)
@@ -302,8 +319,8 @@ function FilterContainer({
                             <div className={classes.rowDisplay}
                                  style={isDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                             >
-                                <text>End Date:</text>
-                                <input defaultValue={getToday()} style={{fontSize: '10px'}} type={"date"}
+                                <label>End Date:</label>
+                                <input className={classes.dateInput} type={"date"}
                                        onClick={onDateSelectionClickHandler}
                                        onChange={(e: any) => {
                                            setEndDate(e.target.value)
@@ -314,10 +331,10 @@ function FilterContainer({
                         <div className={classes.containerPredefinedDateSelection}
                              style={isPredefinedDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                         >
-                            <text
+                            <label
                                 style={isPredefinedDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                             >Predefined Date Range:
-                            </text>
+                            </label>
                             <select className={classes.select}
                                     onClick={onPredefinedDateSelectionClickHandler}
                                     value={predefinedDateSelectValue}
@@ -330,18 +347,18 @@ function FilterContainer({
                         </div>
                     </>
                 }
-                <div style={{width: '100%', display: "flex", justifyContent: "space-around"}}>
-                    <div className={classes.rowDisplayApplyFilters}>
-                        <div className={`${classes.containerApplyFilters}`}>
-                            <button className={classes.button} onClick={filterButtonClickHandler}>
-                                <FontAwesomeIcon size={'2x'} icon={faFilter}></FontAwesomeIcon>
-                            </button>
-                            <button className={classes.button} onClick={resetFiltersAndViewState}>
-                                <FontAwesomeIcon size={'2x'} icon={faFilterCircleXmark}></FontAwesomeIcon>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                {/*<div style={{width: '100%', display: "flex", justifyContent: "space-around"}}>*/}
+                {/*    <div className={classes.rowDisplayApplyFilters}>*/}
+                {/*        <div className={`${classes.containerApplyFilters}`}>*/}
+                {/*            <button className={classes.button} onClick={filterButtonClickHandler}>*/}
+                {/*                <FontAwesomeIcon size={'2x'} icon={faFilter}></FontAwesomeIcon>*/}
+                {/*            </button>*/}
+                {/*            <button className={classes.button} onClick={resetFiltersAndViewState}>*/}
+                {/*                <FontAwesomeIcon size={'2x'} icon={faFilterCircleXmark}></FontAwesomeIcon>*/}
+                {/*            </button>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </>
     );
@@ -354,5 +371,4 @@ export type FilterContainerProps = {
     setCurrentFilterSelection: any,
     onViewStateChange: any,
     setLayers: any,
-    layers: any[]
 }

@@ -16,7 +16,7 @@ function SearchField({onSearchFieldClickHandler, placeHolder, toolTip}: SearchFi
             />
             {showToolTip &&
                 <div className={classes.tooltip}>
-                    <text className={classes.text}>{toolTip}</text>
+                    <div className={classes.text}>{toolTip}</div>
                 </div>
             }
         </>

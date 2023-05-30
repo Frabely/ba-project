@@ -83,7 +83,7 @@ function App() {
     return (
         <div style={{width: '100vw'}}>
             <div style={{padding: '1%'}}>
-                <FilterContainer layers={layers} setLayers={setLayers} onViewStateChange={onViewStateChange} currentFilterSelection={currentFilterSelection} setCurrentFilterSelection={setCurrentFilterSelection}/>
+                <FilterContainer setLayers={setLayers} onViewStateChange={onViewStateChange} currentFilterSelection={currentFilterSelection} setCurrentFilterSelection={setCurrentFilterSelection}/>
             </div>
             <DeckGL
                 initialViewState={viewState}

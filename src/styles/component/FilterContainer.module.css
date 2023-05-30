@@ -5,7 +5,7 @@
 
 .containerSearchField {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 1%;
     border-radius: 7px;
     background: rgba(255, 255, 255, 1);
@@ -81,9 +81,26 @@
     font-size: 10px;
 }
 
+.select:hover {
+    cursor: pointer;
+}
+
+.option:hover {
+    cursor: pointer;
+}
+
 .input {
     font-size: 10px;
 }
+
+.dateInput {
+    font-size: 10px;
+}
+
+.dateInput:hover {
+    cursor: pointer;
+}
+
 .rowDisplay {
     display: flex;
     flex-direction: row;
