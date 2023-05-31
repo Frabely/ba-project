@@ -191,13 +191,15 @@ function FilterContainer({
     }
 
     const filterButtonClickHandler = () => {
-        setLayers([geoLayer])
-        if (isPredefinedActive && predefinedAreaSelectValue === 'Dresden')
+        setLayers([])
+        if (isPredefinedActive && predefinedAreaSelectValue === 'Dresden') {
             onViewStateChange(DRESDEN_VIEW_STATE)
-        else if (isPredefinedActive && predefinedAreaSelectValue === 'Leipzig')
+        } else if (isPredefinedActive && predefinedAreaSelectValue === 'Leipzig') {
             onViewStateChange(LEIPZIG_VIEW_STATE)
-        else
+        } else {
             onViewStateChange(CHEMNITZ_VIEW_STATE)
+            setLayers([geoLayer])
+        }
     }
 
     const borders = open ? {
@@ -268,7 +270,9 @@ function FilterContainer({
                             <button className={classes.button} onClick={resetFiltersAndViewState}>
                                 <FontAwesomeIcon icon={faFilterCircleXmark}></FontAwesomeIcon>
                             </button>
-                            <button className={classes.button} style={{background: 'rgb(97,162,255)', borderColor: 'rgb(0,0,0)'}} onClick={filterButtonClickHandler}>
+                            <button className={classes.button}
+                                    style={{background: 'rgb(97,162,255)', borderColor: 'rgb(0,0,0)'}}
+                                    onClick={filterButtonClickHandler}>
                                 <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
                             </button>
                         </div>
@@ -280,10 +284,10 @@ function FilterContainer({
                              style={isPredefinedActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                         >
                             <div className={classes.rowDisplay}>
-                                <label style={{fontSize: '10px'}}>Predefined Areas:</label>
+                                <label>Predefined Areas:</label>
                                 <select value={predefinedAreaSelectValue} onChange={onSelectLocationHandler}
                                         onClick={onPredefinedClickHandler}
-                                        className={classes.select}>
+                                >
                                     <option>Chemnitz</option>
                                     <option>Dresden</option>
                                     <option>Leipzig</option>
@@ -294,7 +298,7 @@ function FilterContainer({
                              style={isSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                         >
                             <div className={classes.rowDisplay}>
-                                <label style={{fontSize: '10px'}}>Rectangle Selection:</label>
+                                <label>Rectangle Selection:</label>
                                 <button className={classes.button}
                                         style={isDrawingRectangle ? {background: 'rgb(121,121,121)'} : {}}
                                         onClick={onSelectionClickHandler}>
@@ -309,7 +313,7 @@ function FilterContainer({
                                  style={isDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                             >
                                 <label>Start Date:</label>
-                                <input className={classes.dateInput} type={"date"}
+                                <input type={"date"}
                                        onClick={onDateSelectionClickHandler}
                                        onChange={(e: any) => {
                                            setStartDate(e.target.value)
@@ -320,7 +324,7 @@ function FilterContainer({
                                  style={isDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                             >
                                 <label>End Date:</label>
-                                <input className={classes.dateInput} type={"date"}
+                                <input type={"date"}
                                        onClick={onDateSelectionClickHandler}
                                        onChange={(e: any) => {
                                            setEndDate(e.target.value)
@@ -335,8 +339,7 @@ function FilterContainer({
                                 style={isPredefinedDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                             >Predefined Date Range:
                             </label>
-                            <select className={classes.select}
-                                    onClick={onPredefinedDateSelectionClickHandler}
+                            <select onClick={onPredefinedDateSelectionClickHandler}
                                     value={predefinedDateSelectValue}
                                     onChange={onSelectDateHandler}
                             >
