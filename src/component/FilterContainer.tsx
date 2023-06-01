@@ -332,7 +332,7 @@ function FilterContainer({
                                        value={endDate}/>
                             </div>
                         </div>
-                        <div className={classes.containerPredefinedDateSelection}
+                        <div className={`${classes.containerPredefinedDateSelection} + ${classes.rowDisplay}`}
                              style={isPredefinedDateSelectionActive ? {background: DEFAULT_SELECT_COLOR} : {}}
                         >
                             <label
